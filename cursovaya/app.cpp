@@ -6,6 +6,7 @@
 #include "src/utils/utils.h"
 #include "src/engine.h"
 #include "src/menu/menu.h"
+#include "src/core/linkedList/linked_list.cpp"
 
 namespace Screen
 {
@@ -22,7 +23,7 @@ private:
 public:
   MainMenuScreen();
 
-  void render(SDL_Renderer *renderer, SDL_Event event, int &screen);
+  void render(SDL_Renderer *renderer, SDL_Event event, bool &quit, int &screen);
 };
 
 // --- App entry point
@@ -58,7 +59,7 @@ int main(int argc, char *argv[])
     switch (screen)
     {
     case Screen::MAIN_MENU:
-      mainMenuScreen.render(renderer, event, screen);
+      mainMenuScreen.render(renderer, event, quit, screen);
       break;
 
     default:
@@ -88,10 +89,10 @@ MainMenuScreen::MainMenuScreen()
       "5. Remove train",
       "6 or ESCAPE. Exit Program"};
 
-  menu = Menu(5, options);
+  menu = Menu(6, options);
 }
 
-void MainMenuScreen::render(SDL_Renderer *renderer, SDL_Event event, int &screen)
+void MainMenuScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit, int &screen)
 {
   const int xOffset = 12;
   ENGINE::renderText(renderer, xOffset, 64, "Choose action:", 22);
@@ -105,6 +106,11 @@ void MainMenuScreen::render(SDL_Renderer *renderer, SDL_Event event, int &screen
     {
     case SDLK_1:
       screen = Screen::LOAD_DB;
+      break;
+
+    case SDLK_6:
+    case SDLK_ESCAPE:
+      quit = true;
       break;
     }
   }
