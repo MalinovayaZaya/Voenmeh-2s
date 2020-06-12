@@ -1,4 +1,7 @@
 #include <map>
+#include <string>
+
+#include "../engine.h"
 
 #ifndef _MENU
 #define _MENU
@@ -6,14 +9,18 @@
 class Menu
 {
   private:
-    std::map<int, const char*> options;
+    std::map<int, std::string> options;
 
   public:
-    Menu(int optionsCount, const char **rawOptions);
+    Menu();
 
-    const char** getOptions(int *outCount);
+    Menu(int optionsCount, std::string rawOptions[]);
 
-    const char* getOption(int key);
+    std::string* getOptions(int *outCount);
+
+    std::string getOption(int key);
+
+    void render(SDL_Renderer *renderer, int x, int y);
 };
 
 #endif

@@ -1,3 +1,5 @@
+#include <string>
+
 #include "../../lib/sdl2/include/SDL.h"
 #include "../../lib/sdl2_ttf/include/SDL_ttf.h"
 
@@ -5,15 +7,11 @@
 #define _UTILS
 
 namespace HELPERS {
-  int escapeNegativeResult(const int result,  const char action[]);
+  int escapeNegativeResult(const int result, std::string action);
 
-  void escapeNullptr(void* pointer, const char action[]);
+  void escapeNullptr(void* pointer, std::string action);
 
-  int getCStyleStringLength(const char* string);
-}
-
-namespace TEXT_RENDER {
-  void blitTextToSurface(SDL_Surface* surface, SDL_Rect* rect, const char text[], unsigned short fontSize, SDL_Color color);
+  void blitTextToSurface(SDL_Surface* surface, SDL_Rect* rect, std::string text, unsigned short fontSize, SDL_Color color);
 }
 
 #endif

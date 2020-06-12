@@ -1,3 +1,5 @@
+#include <string>
+
 #include "engine.h"
 #include "./utils/utils.h"
 
@@ -13,7 +15,7 @@ void ENGINE::destroy()
   SDL_Quit();
 }
 
-SDL_Window *ENGINE::createWindow(const char title[], int *outWidth, int *outHeight)
+SDL_Window *ENGINE::createWindow(std::string title, int *outWidth, int *outHeight)
 {
   SDL_Window *window;
   SDL_DisplayMode displayMode;
@@ -24,7 +26,7 @@ SDL_Window *ENGINE::createWindow(const char title[], int *outWidth, int *outHeig
   *outHeight = displayMode.h / 2;
 
   window = SDL_CreateWindow(
-      title,
+      title.c_str(),
       SDL_WINDOWPOS_CENTERED,
       SDL_WINDOWPOS_CENTERED,
       displayMode.w / 2,
@@ -41,30 +43,6 @@ SDL_Renderer *ENGINE::createRenderer(SDL_Window *window)
   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
   return renderer;
-}
-
-void ENGINE::renderText(const char *text, SDL_Renderer *renderer, int x, int y)
-{
-  const unsigned short FONT_SIZE = 16;
-  const int textLength = HELPERS::getCStyleStringLength(text);
-  const int width = textLength * FONT_SIZE;
-  const int height = FONT_SIZE * 1.7;
-
-  SDL_Surface *surface = SDL_CreateRGBSurface(0, width, height, 32, 0xFF, 0xFF00, 0xFF0000, 0xFF000000);
-  SDL_Color color = {0, 0, 0, 255};
-  SDL_Rect dstRect;
-  dstRect.w = width;
-  dstRect.h = height;
-  dstRect.x = x;
-  dstRect.y = y;
-
-  TEXT_RENDER::blitTextToSurface(surface, NULL, text, FONT_SIZE, color);
-
-  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-  SDL_RenderCopy(renderer, texture, NULL, &dstRect);
-
-  SDL_FreeSurface(surface);
-  SDL_DestroyTexture(texture);
 }
 
 bool ENGINE::shouldLoop(SDL_Event *event, bool *quit)
@@ -86,11 +64,33 @@ bool ENGINE::shouldLoop(SDL_Event *event, bool *quit)
 
 void ENGINE::beforeRender(SDL_Renderer *renderer)
 {
-  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-  SDL_RenderClear(renderer);
+  HELPERS::escapeNegativeResult(SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255), "beforeRender:: SDL_SetRenderDrawColor");
+  HELPERS::escapeNegativeResult(SDL_RenderClear(renderer), "beforeRender:: SDL_RenderClear");
 }
 
 void ENGINE::afterRender(SDL_Renderer *renderer)
 {
   SDL_RenderPresent(renderer);
+}
+
+void ENGINE::renderText(SDL_Renderer *renderer, int x, int y, std::string text, const unsigned int fontSize)
+{
+  const int width = text.length() * fontSize;
+  const int height = fontSize * 1.7;
+
+  SDL_Surface *surface = SDL_CreateRGBSurface(0, width, height, 32, 0xFF, 0xFF00, 0xFF0000, 0xFF000000);
+  SDL_Color color = {0, 0, 0, 255};
+  SDL_Rect dstRect;
+  dstRect.w = width;
+  dstRect.h = height;
+  dstRect.x = x;
+  dstRect.y = y;
+
+  HELPERS::blitTextToSurface(surface, NULL, text, fontSize, color);
+
+  SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+  HELPERS::escapeNegativeResult(SDL_RenderCopy(renderer, texture, NULL, &dstRect), "renderText:: SDL_RenderCopy");
+
+  SDL_FreeSurface(surface);
+  SDL_DestroyTexture(texture);
 }

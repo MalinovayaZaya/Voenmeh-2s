@@ -1,19 +1,21 @@
 #include "menu.h"
 
-Menu::Menu(int optionsCount, const char **rawOptions)
+Menu::Menu() {};
+
+Menu::Menu(int optionsCount, std::string rawOptions[])
 {
   for (int i = 0; i < optionsCount; i++)
   {
-    options.insert(std::pair<int, const char *>(i, rawOptions[i]));
+    options.insert(std::pair<int, std::string>(i, rawOptions[i]));
   }
 }
 
-const char **Menu::getOptions(int *outCount)
+std::string* Menu::getOptions(int *outCount)
 {
-  const char** rawOptions = new const char*[options.size()];
+  std::string* rawOptions = new std::string[options.size()];
   
   int index = 0;
-  for (std::map<int, const char*>::iterator iterator = options.begin(); iterator != options.end(); iterator++, index++)
+  for (std::map<int, std::string>::iterator iterator = options.begin(); iterator != options.end(); iterator++, index++)
   {
     rawOptions[index] = (*iterator).second;
   }
@@ -22,13 +24,24 @@ const char **Menu::getOptions(int *outCount)
   return rawOptions;
 }
 
-const char *Menu::getOption(int key)
+std::string Menu::getOption(int key)
 {
-  std::map<int, const char*>::iterator iterator = options.find(key);
+  std::map<int, std::string>::iterator iterator = options.find(key);
 
   if (iterator != options.end()) {
     return (*iterator).second;
   }
 
   return NULL;
+}
+
+void Menu::render(SDL_Renderer *renderer, int x, int y)
+{
+  int optionsCount = 0;
+  std::string* options = getOptions(&optionsCount);
+
+  for (int i = 0; i < optionsCount; i++)
+  {
+    ENGINE::renderText(renderer, x, y + 20 * i, options[i]);
+  }
 }

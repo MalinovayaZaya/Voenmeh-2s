@@ -2,7 +2,7 @@
 
 #include "utils.h"
 
-int HELPERS::escapeNegativeResult(const int result, const char action[])
+int HELPERS::escapeNegativeResult(const int result, std::string action)
 {
   if (result != 0)
   {
@@ -14,7 +14,7 @@ int HELPERS::escapeNegativeResult(const int result, const char action[])
   return result;
 }
 
-void HELPERS::escapeNullptr(void *pointer, const char action[])
+void HELPERS::escapeNullptr(void *pointer, std::string action)
 {
   if (pointer == nullptr)
   {
@@ -24,29 +24,15 @@ void HELPERS::escapeNullptr(void *pointer, const char action[])
   }
 }
 
-int HELPERS::getCStyleStringLength(const char *string)
-{
-  int stringLength = 0;
-  const char *iterator = string;
-
-  while (*iterator != '\0')
-  {
-    iterator++;
-    stringLength++;
-  }
-
-  return stringLength;
-}
-
-void TEXT_RENDER::blitTextToSurface(
+void HELPERS::blitTextToSurface(
     SDL_Surface *surface,
     SDL_Rect *rect,
-    const char *text,
+    std::string text,
     unsigned short fontSize,
     SDL_Color color)
 {
-  TTF_Font *font = TTF_OpenFont("fonts/OpenSans-Regular.ttf", fontSize);
-  SDL_Surface *textSurface = TTF_RenderText_Solid(font, text, color);
+  TTF_Font *font = TTF_OpenFont("fonts/Roboto-Medium.ttf", fontSize);
+  SDL_Surface *textSurface = TTF_RenderText_Blended(font, text.c_str(), color);
 
   SDL_BlitSurface(textSurface, NULL, surface, rect);
 
