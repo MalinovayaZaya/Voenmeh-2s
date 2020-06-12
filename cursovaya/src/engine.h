@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_ttf.h"
+#include "../lib/sdl2/include/SDL.h"
+#include "../lib/sdl2_ttf/include/SDL_ttf.h"
 
 #ifndef _ENGINE
 #define _ENGINE
