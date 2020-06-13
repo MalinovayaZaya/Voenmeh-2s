@@ -75,7 +75,14 @@ void TrainList::render(SDL_Renderer *renderer, int x, int y)
     return;
   }
 
+  const int yOffset = 20;
   int index = 0;
+
+  ENGINE::renderText(renderer, x, y, "ID", 16);
+  ENGINE::renderText(renderer, x + 50, y, "DEST", 16);
+  ENGINE::renderText(renderer, x + 100, y, "DEP_TIME", 16);
+  ENGINE::renderText(renderer, x + 200, y, "PATH_TIME", 16);
+  ENGINE::renderText(renderer, x + 300, y, "HAS_TICKETS", 16);
 
   Item<Train> *iterator = getIteratorFromPage(trainList, page, limit);
 
@@ -88,15 +95,11 @@ void TrainList::render(SDL_Renderer *renderer, int x, int y)
 
     Train train = iterator->getData();
 
-    std::string row = "";
-
-    row += std::to_string(train.getIndex()) + " ";
-    row += train.getDestination() + " ";
-    row += std::to_string(train.getDepartureTimestamp()) + " ";
-    row += std::to_string(train.getPathTimeInMs()) + " ";
-    row += std::to_string(train.getHasTickets());
-
-    ENGINE::renderText(renderer, x, y + index * 20, row, 16);
+    ENGINE::renderText(renderer, x, y + yOffset + index * 20, std::to_string(train.getIndex()), 16);
+    ENGINE::renderText(renderer, x + 50, y + yOffset + index * 20, train.getDestination(), 16);
+    ENGINE::renderText(renderer, x + 100, y + yOffset + index * 20, std::to_string(train.getDepartureTimestamp()), 16);
+    ENGINE::renderText(renderer, x + 200, y + yOffset + index * 20, std::to_string(train.getPathTimeInMs()), 16);
+    ENGINE::renderText(renderer, x + 300, y + yOffset + index * 20, std::to_string(train.getHasTickets()), 16);
 
     iterator = iterator->getNext();
     index += 1;
