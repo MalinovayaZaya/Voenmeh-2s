@@ -12,17 +12,22 @@ class Input
       Uint32 prevTextEventTimestamp;
       Uint32 prevKeydownEventTimestamp;
       std::string value;
+      int maxLength;
 
     public:
       Input();
 
       std::string getCurrentValue();
 
-      void resetInput();
+      void setCurrentValue(std::string);
 
-      void handleEvent(SDL_Event event);
+      void setMaxLength(int);
 
-      void render(SDL_Renderer *renderer, int x, int y);
+      void clear();
+
+      void handleEvent(SDL_Event);
+
+      void render(SDL_Renderer*, int, int);
   };
 
 #endif

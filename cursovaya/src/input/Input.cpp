@@ -2,7 +2,11 @@
 
 Input::Input()
 {
-  resetInput();
+  value = "";
+  prevTextEventTimestamp = 0;
+  prevKeydownEventTimestamp = 0;
+
+  maxLength = -1;
 }
 
 std::string Input::getCurrentValue()
@@ -10,11 +14,19 @@ std::string Input::getCurrentValue()
   return value;
 }
 
-void Input::resetInput()
+void Input::setCurrentValue(std::string _value)
+{
+  value = _value;
+}
+
+void Input::setMaxLength(int _maxLength)
+{
+  maxLength = _maxLength;
+}
+
+void Input::clear()
 {
   value = "";
-  prevTextEventTimestamp = 0;
-  prevKeydownEventTimestamp = 0;
 }
 
 void Input::handleEvent(SDL_Event event)
@@ -30,6 +42,14 @@ void Input::handleEvent(SDL_Event event)
       prevTextEventTimestamp = eventTimestamp;
 
       value += event.text.text;
+
+      if (maxLength != -1)
+      {
+        if (value.size() > maxLength)
+        {
+          value = value.substr(0, maxLength);
+        }
+      }
     }
   }
   break;
@@ -41,6 +61,8 @@ void Input::handleEvent(SDL_Event event)
 
     if (eventTimestamp != prevKeydownEventTimestamp)
     {
+      prevKeydownEventTimestamp = eventTimestamp;
+      
       switch (keycode)
       {
       case SDLK_BACKSPACE:
@@ -48,6 +70,11 @@ void Input::handleEvent(SDL_Event event)
         {
           value.pop_back();
         }
+        else
+        {
+          value = "";
+        }
+        
         break;
       }
     }
@@ -58,5 +85,8 @@ void Input::handleEvent(SDL_Event event)
 
 void Input::render(SDL_Renderer *renderer, int x, int y)
 {
-  ENGINE::renderText(renderer, x, y, value, 16);
+  if (value.size())
+  {
+    ENGINE::renderText(renderer, x, y, value, 16);
+  }
 }
