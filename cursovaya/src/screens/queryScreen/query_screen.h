@@ -10,13 +10,14 @@
 class QueryScreen
 {
 private:
+  int prevKeyEventTimestamp;
   std::string dest;
   int fromInterval;
   int toInterval;
   int inputFieldIndex;
   Input inputs[3];
   TrainORM *trainOrm;
-  TrainList trainList;
+  TrainList *trainList;
   bool shouldShowErrorMessage;
   std::string errorMessage;
 

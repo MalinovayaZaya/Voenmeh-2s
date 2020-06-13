@@ -4,7 +4,10 @@
 
 QueryScreen::QueryScreen(TrainORM *orm)
 {
+  prevKeyEventTimestamp = 0;
+
   trainOrm = orm;
+  trainList = nullptr;
 
   inputFieldIndex = 0;
 
@@ -99,7 +102,11 @@ void QueryScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit, in
     break;
 
   case 3:
-    trainList.setList(trainOrm->queryTrainsByDestinationAndTimeInterval(dest, fromInterval, toInterval));
+    if (trainList == nullptr)
+    {
+      trainList = new TrainList();
+      trainList->setList(trainOrm->queryTrainsByDestinationAndTimeInterval(dest, fromInterval, toInterval));
+    }
     break;
   }
 
@@ -143,18 +150,33 @@ void QueryScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit, in
   else
   {
     ENGINE::renderText(renderer, xOffset, yFieldOffset, "Filtered trains:", 24);
-    trainList.render(renderer, xOffset, yFieldOffset + 28);
+    trainList->render(renderer, xOffset, yFieldOffset + 28);
 
     // Handle quit
     if (event.type == SDL_KEYDOWN)
     {
-      const SDL_Keycode keycode = event.key.keysym.sym;
-
-      if (keycode == SDLK_ESCAPE)
+      if (event.key.timestamp != prevKeyEventTimestamp)
       {
-        screen = Screen::MAIN_MENU;
-        SDL_WaitEvent(&event);
-        reset();
+        const SDL_Keycode keycode = event.key.keysym.sym;
+
+        prevKeyEventTimestamp = event.key.timestamp;
+
+        switch (keycode)
+        {
+        case SDLK_RIGHT:
+          trainList->nextPage();
+          break;
+
+        case SDLK_LEFT:
+          trainList->prevPage();
+          break;
+
+        case SDLK_ESCAPE:
+          screen = Screen::MAIN_MENU;
+          SDL_WaitEvent(&event);
+          reset();
+          break;
+        }
       }
     }
   }
@@ -163,7 +185,7 @@ void QueryScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit, in
 void QueryScreen::reset()
 {
   inputFieldIndex = 0;
-  
+
   for (int i = 0; i < 3; i++)
   {
     inputs[i].clear();
@@ -172,4 +194,7 @@ void QueryScreen::reset()
   dest = "";
   fromInterval = -1;
   toInterval = -1;
+
+  delete trainList;
+  trainList = nullptr;
 }

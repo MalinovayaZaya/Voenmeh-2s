@@ -4,6 +4,7 @@
 
 TrainsScreen::TrainsScreen(TrainORM *orm)
 {
+  prevKeyEventTimestamp = 0;
   trainOrm = orm;
   trainList.setList(trainOrm->getTrains());
 }
@@ -16,11 +17,27 @@ void TrainsScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit, i
 
   if (event.type == SDL_KEYDOWN)
   {
-    const SDL_Keycode keycode = event.key.keysym.sym;
-
-    if (keycode == SDLK_ESCAPE)
+    if (event.key.timestamp != prevKeyEventTimestamp)
     {
-      screen = Screen::MAIN_MENU;
+      const SDL_Keycode keycode = event.key.keysym.sym;
+      prevKeyEventTimestamp = event.key.timestamp;
+
+      switch (keycode)
+      {
+      case SDLK_RIGHT:
+        trainList.nextPage();
+        break;
+
+      case SDLK_LEFT:
+        trainList.prevPage();
+        break;
+
+      case SDLK_ESCAPE:
+        screen = Screen::MAIN_MENU;
+        trainList.setPage(0);
+        SDL_WaitEvent(&event);
+        break;
+      }
     }
   }
 }

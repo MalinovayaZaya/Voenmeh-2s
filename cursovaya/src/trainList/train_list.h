@@ -9,12 +9,20 @@
 class TrainList
 {
 private:
-  const int limit = 10;
+  const int limit = 2;
   int page;
   LinkedList<Train>* trainList;
 
 public:
   void setList(LinkedList<Train>*);
+
+  void nextPage();
+
+  void prevPage();
+
+  void setPage(int);
+
+  int getPagesCount();
 
   void render(SDL_Renderer*, int, int);
 };

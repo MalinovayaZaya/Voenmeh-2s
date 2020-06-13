@@ -10,6 +10,7 @@
 class TrainsScreen
 {
 private:
+  Uint32 prevKeyEventTimestamp;
   TrainORM* trainOrm;
   TrainList trainList;
 

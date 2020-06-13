@@ -83,6 +83,7 @@ LinkedList<T>::LinkedList()
 {
   begin = nullptr;
   end = nullptr;
+  count = 0;
 }
 
 template <typename T>
