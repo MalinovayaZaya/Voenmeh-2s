@@ -4,13 +4,12 @@
 MainMenuScreen::MainMenuScreen()
 {
   std::string options[] = {
-      "1. Load trainsDB",
-      "2. Print trainsDB",
-      "3. Add train",
-      "4. Query trains by destination and time interval",
-      "5. Exit program"};
+      "1. Print trainsDB",
+      "2. Add train",
+      "3. Query trains by destination and time interval",
+      "4. Exit program"};
 
-  menu = Menu(5, options);
+  menu = Menu(4, options);
 }
 
 void MainMenuScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit, int &screen)
@@ -26,17 +25,22 @@ void MainMenuScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit,
 
     switch (keycode)
     {
-    case SDLK_2:
+    case SDLK_1:
       screen = Screen::PRINT_TRAINS;
       SDL_WaitEvent(&event);
       break;
 
-    case SDLK_3:
+    case SDLK_2:
       screen = Screen::ADD_TRAIN;
       SDL_WaitEvent(&event);
       break;
+      
+    case SDLK_3:
+      screen = Screen::QUERY_TRAINS;
+      SDL_WaitEvent(&event);
+      break;
 
-    case SDLK_5:
+    case SDLK_4:
       quit = true;
       break;
     }

@@ -16,6 +16,7 @@
 #include "src/screens/mainMenu/main_menu.h"
 #include "src/screens/trains/trains_screen.h"
 #include "src/screens/addTrain/add_train_screen.h"
+#include "src/screens/queryScreen/query_screen.h"
 
 // --- App entry point
 int main(int argc, char *argv[])
@@ -42,6 +43,7 @@ int main(int argc, char *argv[])
   MainMenuScreen mainMenuScreen;
   TrainsScreen trainsScreen(trainOrm);
   AddTrainScreen addTrainScreen(trainOrm);
+  QueryScreen queryScreen(trainOrm);
 
   while (ENGINE::shouldLoop(&event, &quit))
   {
@@ -62,8 +64,10 @@ int main(int argc, char *argv[])
 
     case Screen::ADD_TRAIN:
       addTrainScreen.render(renderer, event, quit, screen);
+      break;
 
-    default:
+    case Screen::QUERY_TRAINS:
+      queryScreen.render(renderer, event, quit, screen);
       break;
     }
 

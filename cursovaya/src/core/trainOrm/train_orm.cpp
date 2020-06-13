@@ -41,12 +41,12 @@ LinkedList<Train> *TrainORM::getTrains()
   return &list;
 }
 
-LinkedList<Train> TrainORM::queryTrainsByDestinationAndTimeInterval(
+LinkedList<Train>* TrainORM::queryTrainsByDestinationAndTimeInterval(
     std::string destination,
     int fromTimestamp,
     int toTimestamp)
 {
-  LinkedList<Train> filteredTrainList;
+  LinkedList<Train>* filteredTrainList = new LinkedList<Train>();
   Item<Train> *iterator = list.getBegin();
 
   while (iterator != nullptr)
@@ -58,7 +58,7 @@ LinkedList<Train> TrainORM::queryTrainsByDestinationAndTimeInterval(
 
     if (trainDestination == destination && trainDeparture >= fromTimestamp && trainDeparture <= toTimestamp)
     {
-      filteredTrainList.pushBack(train);
+      filteredTrainList->pushBack(train);
     }
 
     iterator = iterator->getNext();

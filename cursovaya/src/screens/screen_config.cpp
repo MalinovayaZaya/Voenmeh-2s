@@ -4,8 +4,9 @@
 namespace Screen
 {
   const int MAIN_MENU = 0;
-  const int PRINT_TRAINS = 2;
-  const int ADD_TRAIN = 3;
+  const int PRINT_TRAINS = 1;
+  const int ADD_TRAIN = 2;
+  const int QUERY_TRAINS = 3;
 }; // namespace Screen
 
 #endif
