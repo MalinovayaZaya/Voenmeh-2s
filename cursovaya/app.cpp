@@ -7,6 +7,7 @@
 #include "src/engine.h"
 #include "src/menu/menu.h"
 #include "src/core/linkedList/linked_list.cpp"
+#include "src/core/train/train.h"
 
 namespace Screen
 {
@@ -15,6 +16,8 @@ namespace Screen
 }; // namespace Screen
 
 // --- Screen classes declaration
+
+// MainMenuScreen
 class MainMenuScreen
 {
 private:
