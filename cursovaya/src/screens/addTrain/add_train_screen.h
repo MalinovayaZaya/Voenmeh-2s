@@ -10,7 +10,7 @@
 class AddTrainScreen
 {
 private:
-  TrainORM trainOrm;
+  TrainORM* trainOrm;
   Train train;
   int inputFieldIndex;
   Input inputs[5];
@@ -18,7 +18,7 @@ private:
   std::string errorMessage;
 
 public:
-  AddTrainScreen(TrainORM &);
+  AddTrainScreen(TrainORM *);
 
   void validateInputField(int &);
 

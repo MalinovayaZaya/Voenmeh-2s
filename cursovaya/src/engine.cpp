@@ -50,7 +50,7 @@ bool ENGINE::shouldLoop(SDL_Event *event, bool *quit)
   SDL_PollEvent(event);
 
   if ((*event).type == SDL_QUIT)
-  {
+  { 
     return false;
   }
 

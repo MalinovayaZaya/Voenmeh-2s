@@ -1,22 +1,18 @@
 #include "train_orm.h"
 
-TrainORM::TrainORM() {}
+TrainORM::TrainORM() {
+  Train test;
 
-void TrainORM::addTrain(
-    int index,
-    std::string destination,
-    int depatureTimestamp,
-    int pathTimeInMs,
-    bool hasTickets)
-{
-  Train train;
+  test.setIndex(0);
+  test.setDestination("MSK");
+  test.setDepartureTimestamp(100);
+  test.setPathTimeInMs(100);
+  test.setHasTickets(true);
 
-  train.setIndex(index);
-  train.setDestination(destination);
-  train.setDepartureTimestamp(depatureTimestamp);
-  train.setPathTimeInMs(pathTimeInMs);
-  train.setHasTickets(hasTickets);
+  list.pushBack(test);
+}
 
+void TrainORM::addTrain(Train train){
   list.pushBack(train);
 }
 
@@ -37,6 +33,11 @@ Train *TrainORM::getTrainByIndex(int index)
   }
 
   return nullptr;
+}
+
+LinkedList<Train>* TrainORM::getTrains()
+{
+  return &list;
 }
 
 LinkedList<Train> TrainORM::queryTrainsByDestinationAndTimeInterval(

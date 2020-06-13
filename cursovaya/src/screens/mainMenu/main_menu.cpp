@@ -9,7 +9,7 @@ MainMenuScreen::MainMenuScreen()
       "3. Add train",
       "4. Query trains by destination and time interval",
       "5. Remove train",
-      "6 or ESCAPE. Exit Program"};
+      "6. Exit Program"};
 
   menu = Menu(6, options);
 }
@@ -27,13 +27,17 @@ void MainMenuScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit,
 
     switch (keycode)
     {
+    case SDLK_2:
+      screen = Screen::PRINT_TRAINS;
+      SDL_WaitEvent(&event);
+      break;
+
     case SDLK_3:
       screen = Screen::ADD_TRAIN;
       SDL_WaitEvent(&event);
       break;
 
     case SDLK_6:
-    case SDLK_ESCAPE:
       quit = true;
       break;
     }

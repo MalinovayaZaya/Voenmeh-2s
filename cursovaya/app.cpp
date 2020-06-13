@@ -14,6 +14,7 @@
 
 #include "src/screens/screen_config.cpp"
 #include "src/screens/mainMenu/main_menu.h"
+#include "src/screens/trains/trains_screen.h"
 #include "src/screens/addTrain/add_train_screen.h"
 
 // --- App entry point
@@ -27,7 +28,7 @@ int main(int argc, char *argv[])
   SDL_Event event;
   bool quit = false;
   int screen = Screen::MAIN_MENU;
-  TrainORM trainOrm;
+  TrainORM* trainOrm = new TrainORM();
 
   ENGINE::init();
 
@@ -39,6 +40,7 @@ int main(int argc, char *argv[])
 
   // Screens
   MainMenuScreen mainMenuScreen;
+  TrainsScreen trainsScreen(trainOrm);
   AddTrainScreen addTrainScreen(trainOrm);
 
   while (ENGINE::shouldLoop(&event, &quit))
@@ -54,6 +56,10 @@ int main(int argc, char *argv[])
       mainMenuScreen.render(renderer, event, quit, screen);
       break;
 
+    case Screen::PRINT_TRAINS:
+      trainsScreen.render(renderer, event, quit, screen);
+      break;
+
     case Screen::ADD_TRAIN:
       addTrainScreen.render(renderer, event, quit, screen);
 
@@ -64,6 +70,7 @@ int main(int argc, char *argv[])
     ENGINE::afterRender(renderer);
   }
 
+  delete trainOrm;
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
 

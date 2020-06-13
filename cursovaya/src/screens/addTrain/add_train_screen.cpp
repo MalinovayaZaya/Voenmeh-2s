@@ -1,7 +1,7 @@
 #include "add_train_screen.h"
 #include "../screen_config.cpp"
 
-AddTrainScreen::AddTrainScreen(TrainORM &_trainOrm)
+AddTrainScreen::AddTrainScreen(TrainORM *_trainOrm)
 {
   trainOrm = _trainOrm;
   inputFieldIndex = 0;
@@ -148,6 +148,8 @@ void AddTrainScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit,
 
   case 5:
     state = Screen::MAIN_MENU;
+
+    (*trainOrm).addTrain(train);
     break;
   }
 
@@ -165,6 +167,11 @@ void AddTrainScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit,
       if (keycode == SDLK_RETURN)
       {
         validateInputField(inputFieldIndex);
+      }
+
+      if (keycode == SDLK_ESCAPE)
+      {
+        state = Screen::MAIN_MENU;
       }
     }
 

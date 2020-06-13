@@ -12,9 +12,11 @@ private:
 public:
   TrainORM();
 
-  void addTrain(int, std::string, int, int, bool);
+  void addTrain(Train);
 
   Train* getTrainByIndex(int);
+
+  LinkedList<Train>* getTrains();
 
   LinkedList<Train> queryTrainsByDestinationAndTimeInterval(std::string, int, int);
 };
