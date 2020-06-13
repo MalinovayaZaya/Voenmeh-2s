@@ -122,6 +122,8 @@ void QueryScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit, in
       if (keycode == SDLK_ESCAPE)
       {
         screen = Screen::MAIN_MENU;
+        SDL_WaitEvent(&event);
+        reset();
       }
     }
 
@@ -152,7 +154,22 @@ void QueryScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit, in
       {
         screen = Screen::MAIN_MENU;
         SDL_WaitEvent(&event);
+        reset();
       }
     }
   }
+}
+
+void QueryScreen::reset()
+{
+  inputFieldIndex = 0;
+  
+  for (int i = 0; i < 3; i++)
+  {
+    inputs[i].clear();
+  }
+
+  dest = "";
+  fromInterval = -1;
+  toInterval = -1;
 }

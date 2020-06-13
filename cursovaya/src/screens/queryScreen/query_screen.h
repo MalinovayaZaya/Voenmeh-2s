@@ -26,6 +26,8 @@ public:
   void validateInputField(int &);
 
   void render(SDL_Renderer *, SDL_Event, bool &, int &);
+
+  void reset();
 };
 
 #endif

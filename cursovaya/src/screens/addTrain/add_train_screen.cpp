@@ -7,7 +7,7 @@ AddTrainScreen::AddTrainScreen(TrainORM *_trainOrm)
   inputFieldIndex = 0;
 
   inputs[0].setMaxLength(9);
-  inputs[1].setMaxLength(4);
+  inputs[1].setMaxLength(3);
   inputs[2].setMaxLength(9);
   inputs[3].setMaxLength(9);
   inputs[4].setMaxLength(1);
@@ -131,7 +131,7 @@ void AddTrainScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit,
     break;
 
   case 1:
-    fieldTitle = "Enter train destination (max 4 symbols):";
+    fieldTitle = "Enter train destination (max 3 symbols):";
     break;
 
   case 2:
@@ -148,8 +148,10 @@ void AddTrainScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit,
 
   case 5:
     state = Screen::MAIN_MENU;
-
     (*trainOrm).addTrain(train);
+    SDL_WaitEvent(&event);
+    reset();
+
     break;
   }
 
@@ -172,6 +174,8 @@ void AddTrainScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit,
       if (keycode == SDLK_ESCAPE)
       {
         state = Screen::MAIN_MENU;
+        SDL_WaitEvent(&event);
+        reset();
       }
     }
 
@@ -188,4 +192,16 @@ void AddTrainScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit,
       }
     }
   }
+}
+
+void AddTrainScreen::reset()
+{
+  inputFieldIndex = 0;
+
+  for (int i = 0; i < 5; i++)
+  {
+    inputs[i].clear();
+  }
+
+  train = Train();
 }
