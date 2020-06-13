@@ -3,6 +3,8 @@
 #ifndef _TRAIN
 #define _TRAIN
 
+const int TRAIN_BYTE_SIZE = 18;
+
 class Train
 {
 private:
