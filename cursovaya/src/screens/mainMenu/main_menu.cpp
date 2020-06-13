@@ -8,10 +8,9 @@ MainMenuScreen::MainMenuScreen()
       "2. Print trainsDB",
       "3. Add train",
       "4. Query trains by destination and time interval",
-      "5. Remove train",
-      "6. Exit Program"};
+      "5. Exit program"};
 
-  menu = Menu(6, options);
+  menu = Menu(5, options);
 }
 
 void MainMenuScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit, int &screen)
@@ -37,7 +36,7 @@ void MainMenuScreen::render(SDL_Renderer *renderer, SDL_Event event, bool &quit,
       SDL_WaitEvent(&event);
       break;
 
-    case SDLK_6:
+    case SDLK_5:
       quit = true;
       break;
     }

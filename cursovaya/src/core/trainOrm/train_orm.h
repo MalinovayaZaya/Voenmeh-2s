@@ -7,6 +7,7 @@
 class TrainORM
 {
 private:
+  std::string fileName;
   LinkedList<Train> list;
 
 public:
@@ -19,6 +20,10 @@ public:
   LinkedList<Train>* getTrains();
 
   LinkedList<Train> queryTrainsByDestinationAndTimeInterval(std::string, int, int);
+
+  void loadFromFile();
+
+  void saveToFile();
 };
 
 #endif
